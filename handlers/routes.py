@@ -3,7 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from sqlalchemy import desc
 
+
 def configure_routes(app):
+    # Database
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ornithologist:ornithologist@localhost:5432/birds_db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # Init db
     db = SQLAlchemy(app)
     # Init ma
