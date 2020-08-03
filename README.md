@@ -2,7 +2,7 @@
 
 > Uses Python Flask, SQL Alchemy and Marshmallow
 
-## Quick Start Using Pipenv
+## Start Application Using Pipenv
 
 ``` bash
 # Prepare test DB
