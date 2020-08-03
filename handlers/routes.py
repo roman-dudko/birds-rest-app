@@ -41,37 +41,47 @@ def configure_routes(app):
     def get_version():
         return 'Birds Service. Version 0.1'
 
-
     # Get list of birds
     @app.route('/birds', methods=['GET'])
     def get_birds():
         if request.args.get('order') == 'desc' and request.args.get('attribute') in ['species', 'name', 'color',
                                                                                      'body_length', 'wingspan']:
-            all_birds = Birds.query.order_by(desc(request.args.get('attribute'))) \
-                .offset(request.args.get('offset') if 'offset' in request.args else 0) \
-                .limit(request.args.get('limit') if 'limit' in request.args else None)
+            try:
+                all_birds = Birds.query.order_by(desc(request.args.get('attribute'))) \
+                    .offset(request.args.get('offset') if 'offset' in request.args else 0) \
+                    .limit(request.args.get('limit') if 'limit' in request.args else None)
+            except:
+                return '400 Bad Request', 400
 
         elif request.args.get('order') == 'asc' and request.args.get('attribute') in ['species', 'name', 'color',
                                                                                       'body_length', 'wingspan']:
-            all_birds = Birds.query.order_by(request.args.get('attribute')) \
-                .offset(request.args.get('offset') if 'offset' in request.args else 0) \
-                .limit(request.args.get('limit') if 'limit' in request.args else None)
+            try:
+                all_birds = Birds.query.order_by(request.args.get('attribute')) \
+                    .offset(request.args.get('offset') if 'offset' in request.args else 0) \
+                    .limit(request.args.get('limit') if 'limit' in request.args else None)
+            except:
+                return '400 Bad Request', 400
         else:
-            all_birds = Birds.query.offset(request.args.get('offset') if 'offset' in request.args else 0) \
-                .limit(request.args.get('limit') if 'limit' in request.args else None)
+            try:
+                all_birds = Birds.query.offset(request.args.get('offset') if 'offset' in request.args else 0) \
+                    .limit(request.args.get('limit') if 'limit' in request.args else None)
+            except:
+                return '400 Bad Request', 400
         result = birds_schema.dump(all_birds)
         return jsonify(result)
-
 
     # Add new bird
     @app.route('/birds', methods=['POST'])
     def add_bird():
-        species = request.json['species']
-        name = request.json['name']
-        color = request.json['color']
-        body_length = request.json['body_length']
-        wingspan = request.json['wingspan']
-        new_bird = Birds(species, name, color, body_length, wingspan)
-        db.session.add(new_bird)
-        db.session.commit()
+        try:
+            species = request.json['species']
+            name = request.json['name']
+            color = request.json['color']
+            body_length = request.json['body_length']
+            wingspan = request.json['wingspan']
+            new_bird = Birds(species, name, color, body_length, wingspan)
+            db.session.add(new_bird)
+            db.session.commit()
+        except:
+            return '400 Bad Request', 400
         return bird_schema.jsonify(new_bird)

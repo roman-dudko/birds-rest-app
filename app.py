@@ -1,6 +1,7 @@
 from flask import Flask
 from handlers.routes import configure_routes
 import sys
+
 sys.path.append('../')
 
 # Init app
