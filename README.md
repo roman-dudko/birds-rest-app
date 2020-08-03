@@ -22,8 +22,8 @@ $ python app.py
 ## Endpoints
 
 * GET     /version
-* GET     /birds  #suported params: attribute, order, limit, offset
-* POST    /birds  #tates JSON at body
+* GET     /birds
+* POST    /birds
 
 ## Unit tests
 ``` bash
