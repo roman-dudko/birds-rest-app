@@ -22,7 +22,7 @@ $ python app.py
 ## Endpoints
 
 * GET     /version
-* GET     /birds
+* GET     /birds (suported params: attribute, order, offset, limit)
 * POST    /birds
 
 ## Unit tests
